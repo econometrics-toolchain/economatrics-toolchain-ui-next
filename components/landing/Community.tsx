@@ -1,5 +1,6 @@
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     spacer: {
         margin: "3rem 0",
     },
-   
+
 }));
 
 export const Community = () => {
@@ -31,9 +32,11 @@ export const Community = () => {
                         Feel free to ask questions and share your knowledge.
                     </Typography>
                     <Grid>
-                        <Button variant='contained' color='secondary'>
-                            Join us
+                        <Link href="/forum">
+                            <Button variant='contained' color='secondary'>
+                                Join us
                         </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </div>

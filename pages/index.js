@@ -1,40 +1,37 @@
 import Head from 'next/head'
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Hero } from '../components/landing/Hero';
+import { Landing } from '../components/landing/Landing';
 import { LandingContent } from '../components/landing/LandingContent';
+import { Topbar } from '../components/landing/Topbar';
 import { Login } from '../components/wizard/Login';
 import { Register } from '../components/wizard/Register';
 import { SupportedToolsProvider } from '../context/ToolsContext';
-import { WizardContext } from '../context/WizardContext';
+import { SplashScreen } from '../components/other/loaders';
+import { useAuth } from '../hooks/useAuth';
+// import { Members } from '../components/members/Members';
+import { useRouter } from 'next/router';
 
-export default function Landing() {
-  const [wizard, setWizard] = useContext(WizardContext);
+export default function Home() {
+  const { isPending, isAuthenticated } = useAuth();
+  const router = useRouter()
 
-  const handleLogin = () => {
-    setWizard({
-      open: true,
-      content: <Login />,
-      fullScreen: true,
-    })
-  }
-  const handleRegister = () => {
-    setWizard({
-      open: true,
-      content: <Register />,
-      fullScreen: true,
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/app');
+    }
+  }, [isAuthenticated])
 
-    })
+  if (isPending) {
+    return (<SplashScreen />)
   }
   return (
     <>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Hero loginCallback={handleLogin} regCallback={handleRegister}/>
       <SupportedToolsProvider>
-        <LandingContent regCallback={handleRegister}/>
+        {/* {isAuthenticated === true ? <Members /> : <Landing />} */}
+        <Landing />
       </SupportedToolsProvider>
     </>
   )
+
 }

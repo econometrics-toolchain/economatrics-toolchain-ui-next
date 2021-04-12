@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "utils/index.js", "pages/index.js"  ],
+, "utils/index.js", "pages/index.js", "components/sidebar/SIdebar.js", "components/members/dashboard/MySpreadsheets.js"  ],
   "exclude": [
     "node_modules"
   ]

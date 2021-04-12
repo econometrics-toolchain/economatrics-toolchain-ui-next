@@ -12,8 +12,11 @@ const bootstrap = async () => {
             user = await auth.getCurrentUser();
             status = 'success'
         } catch (e) {
+            status = 'error';
             error = 'error';
         }
+    } else {
+        status = 'error'
     }
 
     return [user, error, status];

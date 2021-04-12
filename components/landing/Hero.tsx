@@ -1,5 +1,6 @@
 import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import clsx from 'clsx';
+import { Topbar } from "./Topbar";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -29,24 +30,10 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export const Hero = ({ loginCallback, regCallback }) => {
+export const Hero = ({ loginCallback }) => {
     const classes = useStyles();
     return (
         <>
-            <Grid alignItems='center' justify='space-between' className={clsx(classes.topbar, classes.container, 'engineer')} container>
-                <div className='logo'>
-                    <h2>GEST</h2>
-                </div>
-            </Grid>
-
-            <Grid direction="row" justify="flex-end" alignItems="center" className={clsx(classes.btns, classes.container)} container >
-                <Button style={{ margin: '5px' }} variant='outlined' color='inherit' onClick={loginCallback}>
-                    Login
-                </Button>
-                <Button variant='outlined' color='inherit' onClick={regCallback}>
-                    Register
-                </Button>
-            </Grid>
             <div className={clsx(classes.hero, 'engineer', classes.container)}>
                 <Grid direction='column' spacing={3} container>
                     <Grid item>
