@@ -1,8 +1,8 @@
 import { useState, createContext } from 'react';
 
-export const WizardContext = createContext();
+export const WizardContext = createContext({});
 
-export const WizardProvider = ({children}) => {
+export const WizardProvider = ({ children }) => {
     const [wizard, setWizard] = useState({
         open: false,
         content: null,
