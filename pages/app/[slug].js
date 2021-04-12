@@ -1,4 +1,4 @@
-// export default function Dashboard() {
+export default function Dashboard() {
 
-//     return <div>app</div>
-// }
+    return <div>app</div>
+}
