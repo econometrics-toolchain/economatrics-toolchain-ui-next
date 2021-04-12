@@ -1,8 +1,12 @@
+import { Checkbox, Grid, IconButton } from '@material-ui/core';
+import { MoreVertRounded } from '@material-ui/icons';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import { truncate } from '../../../utils';
 
-const ListTile = ({ pk, item, onChange, checked }) => {
+export const ListTile = ({ pk, item, onChange, checked }) => {
     const history = useRouter();
-    const onClickCallback = () => history.push(`/app/${item.name}`, item);
+    const onClickCallback = () => history.push(`/app/${item.name}`);
 
     const handleChange = (event) => {
         onChange(pk)
