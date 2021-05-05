@@ -2,11 +2,18 @@ import { Wizard } from '../components/wizard/Wizard'
 import { WizardProvider } from '../context/WizardContext'
 import React from 'react';
 import Head from 'next/head';
+import Router from 'next/router';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../utils/theme';
-import '../styles/globals.css'
 import { AuthProvider } from '../context/AuthContext';
+import { SupportedToolsProvider } from '../context/ToolsContext';
+import { ProtectRoute } from '../components/other/ProtectRoute';
+// import NextNprogress from 'nextjs-progressbar';
+
+import '../styles/globals.css'
 import 'react-datasheet/lib/react-datasheet.css';
+import { red } from '@material-ui/core/colors';
+
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -29,7 +36,16 @@ export default function MyApp(props) {
         <ThemeProvider theme={theme}>
           <WizardProvider>
             <Wizard />
-            <Component {...pageProps} />
+            <SupportedToolsProvider>
+              <ProtectRoute>
+                {/* <NextNprogress
+                  color={red[400]}
+                  startPosition={0.3}
+                  height={2}
+                /> */}
+                <Component {...pageProps} />
+              </ProtectRoute>
+            </SupportedToolsProvider>
           </WizardProvider>
         </ThemeProvider>
       </AuthProvider>

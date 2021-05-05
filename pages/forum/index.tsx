@@ -6,8 +6,7 @@ import { Register } from "../../components/wizard/Register";
 import { WizardContext } from "../../context/WizardContext";
 
 export default function Forum({ example }) {
-    const [wizard, setWizard] = useContext(WizardContext) as Array<any>;
-    console.log('client');
+    const [, setWizard] = useContext(WizardContext) as Array<any>;
 
     const handleLogin = () => {
         setWizard({
@@ -24,7 +23,6 @@ export default function Forum({ example }) {
 
         })
     }
-
     return (
         <>
             <Head>
@@ -36,13 +34,4 @@ export default function Forum({ example }) {
             </div>
         </>
     )
-}
-
-export async function getServerSideProps(context) {
-    const example = "Message from server"
-    console.log('server');
-
-    return {
-        props: { example },
-    }
 }

@@ -4,22 +4,19 @@ import { useRouter } from 'next/router'
 
 export function Navigator() {
     const location = useRouter()
-    const paths = location.pathname.split('/').filter(function (el) { return el.length !== 0 });;
+    // const paths = location.pathname.split('/').filter(function (el) { return el.length !== 0 });
+    const router = useRouter()
+    const paths = location.pathname.split('/')[1]
+    const { slug } = router.query
 
     return (
         <Grid alignItems='center' container spacing={1}>
-
-            {paths.map((item, index) => (
-                <Grid key={index} item>
-                    <Typography variant='h5' component='h2'>
-                        {index === paths.length - 1 ?
-                            <Link href={item}><a className='router-link'>{item}</a></Link> :
-                            <Link href={`/${item}`}><a className='router-link'>{item}</a></Link>
-                        }/
-                    </Typography>
-                </Grid>
-            ))}
-
+            <Grid item>
+                <Typography variant='h5' component='h2'>
+                    <Link href='/'><a className='router-link'>{paths}</a></Link>/
+                    <a className='router-link'>{slug}</a>
+                </Typography>
+            </Grid>
         </Grid>
     )
 }

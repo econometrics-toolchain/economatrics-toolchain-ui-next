@@ -1,17 +1,18 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Grid } from '@material-ui/core';
 import axios from 'axios';
 import { WizardContext } from '../../../context/WizardContext';
 import { deleteSpreadsheet } from '../../../utils/services';
-import { CachedSheetsContext } from '../../../context/CachedSheetsContext';
 import { TableHeading } from './TableHeading';
 import { MySheetsSkeleton } from '../../other/loaders';
 import { ListTile } from './ListTile';
+import { useMySheets } from '../../../hooks/useMySheets';
+import { NewSheetContent } from '../../wizard/NewSheet';
 
+function WrappedMySheets() {
 
-export const MySheets = () => {
-    const [sheets, setSheets, isLoaded, setNeedResetSignal] = useContext(CachedSheetsContext); // Proxy
     const [, setWizard] = useContext(WizardContext);
+    const [sheets, setSheets, isLoading] = useMySheets();
 
     const handleCheck = (index) => {
         let tmp = [...sheets]
@@ -20,11 +21,11 @@ export const MySheets = () => {
     }
 
     const handleCreate = () => {
-        // setWizard({
-        //     open: true,
-        //     content: <NewSheetContent updateSheetListSignal={setNeedResetSignal} />,
-        //     fullScreen: true,
-        // })
+        setWizard({
+            open: true,
+            content: <NewSheetContent />,
+            fullScreen: true,
+        })
     }
     const handleCheckAll = (checked) => {
         let tmp = [...sheets]
@@ -49,17 +50,18 @@ export const MySheets = () => {
             setSheets(tmp)
         );
     }
+
     return (
         <>
             <TableHeading checkedCallback={handleCheckAll} onDelete={handleDelete} onCreate={handleCreate} />
             <Grid container spacing={2}>
                 {
-                    isLoaded ?
+                    !isLoading ?
                         sheets.map((item, index) => (
                             <ListTile
                                 key={index}
                                 pk={index}
-                                item={item.data}
+                                item={item}
                                 checked={item.checked}
                                 onChange={handleCheck}
                             />
@@ -72,3 +74,4 @@ export const MySheets = () => {
     )
 }
 
+export const MySheets = React.memo(WrappedMySheets);

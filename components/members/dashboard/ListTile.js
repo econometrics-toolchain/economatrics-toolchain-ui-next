@@ -1,12 +1,13 @@
 import { Checkbox, Grid, IconButton } from '@material-ui/core';
 import { MoreVertRounded } from '@material-ui/icons';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { truncate } from '../../../utils';
 
 export const ListTile = ({ pk, item, onChange, checked }) => {
-    const history = useRouter();
-    const onClickCallback = () => history.push(`/app/${item.name}`);
+    // const history = useRouter();
+    // const onClickCallback = () => history.push(`/sheets/${item.name}`);
 
     const handleChange = (event) => {
         onChange(pk)
@@ -23,20 +24,22 @@ export const ListTile = ({ pk, item, onChange, checked }) => {
                             color="secondary"
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
-                        <div className='list-lite-item name' onClick={onClickCallback}>
+                        <Link href={`/sheets/${item.name}`}>
+                        <div className='list-lite-item name'>
                             {truncate(item.name)}
                         </div>
+                        </Link>
                     </div>
                 </Grid>
 
-                <Grid xs={4} className='list-lite-item' item onClick={onClickCallback}>
+                <Grid xs={4} className='list-lite-item' item>
                     {new Date(item.updated_at).toLocaleDateString()}
                 </Grid>
-                <Grid xs={4} className='list-lite-item' item onClick={onClickCallback}>
+                <Grid xs={4} className='list-lite-item' item>
                     {new Date(item.created_at).toLocaleDateString()}
                 </Grid>
             </Grid>
-            <Grid xs={4} md={6} className='list-lite-item' justify='flex-end' item container onClick={onClickCallback}>
+            <Grid xs={4} md={6} className='list-lite-item' justify='flex-end' item container>
                 <IconButton size='small'>
                     <MoreVertRounded />
                 </IconButton>

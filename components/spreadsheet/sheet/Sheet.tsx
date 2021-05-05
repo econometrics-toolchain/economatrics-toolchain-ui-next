@@ -117,7 +117,7 @@ const SelectSolution = ({ onChange, tools }) => {
     )
 }
 
-export const SpreadSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, onChange }) => {
+export const Sheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, onChange }) => {
     const classes = useStyles();
     const [showOutput, setShowOutput] = useState(outputs.length > 0 ? true : false)
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SpreadSheet } from "../spreadsheet/sheet/Sheet";
+import { Sheet } from "../spreadsheet/sheet/Sheet";
 
 export const Demo = ({ regCallback }) => {
     const [demoData, setDemoData] = useState({
@@ -350,7 +350,7 @@ export const Demo = ({ regCallback }) => {
     }
     return (
         <div className="demo-sheet">
-            <SpreadSheet
+            <Sheet
                 pk={0}
                 data={demoData.data}
                 tools={demoData.tools}

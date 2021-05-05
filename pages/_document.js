@@ -11,16 +11,17 @@ export default class MyDocument extends Document {
                     {/* PWA primary color */}
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link
-                        rel="stylesheet"
-                        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+                        rel="preconnect"
+                        href="https://fonts.gstatic.com"
+                        crossOrigin="true"
                     />
-                    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet"/>
-
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" />
                 </Head>
-                    <body>
-                        <Main />
-                        <NextScript />
-                    </body>
+                <body>
+                    <Main />
+                    <NextScript />
+                </body>
             </Html>
         );
     }
@@ -57,14 +58,14 @@ MyDocument.getInitialProps = async (ctx) => {
 
     ctx.renderPage = () =>
         originalRenderPage({
-                    enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+            enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
         });
 
     const initialProps = await Document.getInitialProps(ctx);
 
     return {
-                    ...initialProps,
-                    // Styles fragment is rendered after the app and page rendering finish.
-                    styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
+        ...initialProps,
+        // Styles fragment is rendered after the app and page rendering finish.
+        styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
     };
 };

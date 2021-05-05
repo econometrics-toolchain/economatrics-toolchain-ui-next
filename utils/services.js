@@ -1,8 +1,9 @@
 import axios from "axios";
 import { User } from "../models/User";
+import Cookies from "js-cookie";
 
-const apiUrl = 'https://gretljestslaby.pythonanywhere.com/';
-const localStorageKey = 'token';
+export const apiUrl = 'https://gretljestslaby.pythonanywhere.com/';
+const authKey = 'token';
 const httpClient = axios.create();
 
 httpClient.interceptors.request.use(async config => {
@@ -29,14 +30,16 @@ httpClient.interceptors.response.use((response) => {
     return error;
 })
 
+export const fetcher = url => httpClient.get(url).then(res => res.data);
+
 const login = async (email, password) => {
     let response = await httpClient.post(`${apiUrl}users/auth/login/`, {
         username: email,
         password: password,
     });
-    console.log(`Status code:` + response.status);
     if (response.status === 200) {
-        window.localStorage.setItem(localStorageKey, response.data['key'])
+        Cookies.set(authKey, response.data['key'])
+        // window.localStorage.setItem(localStorageKey, response.data['key'])
     }
     return response;
 }
@@ -47,17 +50,18 @@ const getCurrentUser = async () => {
     return new User(response.data.email, response.data.username)
 }
 
-
 const logout = async () => {
     removeToken();
 }
 
 const getToken = async () => {
-    return window.localStorage.getItem(localStorageKey);
+    // return window.localStorage.getItem(localStorageKey);
+    return Cookies.get(authKey);
 }
 
 const removeToken = async () => {
-    return window.localStorage.removeItem(localStorageKey);
+    return Cookies.remove(authKey);
+    // return window.localStorage.removeItem(localStorageKey);
 }
 
 const getMySheets = async () => {
@@ -66,7 +70,7 @@ const getMySheets = async () => {
 }
 
 const addNewSheet = async (name) => {
-    let response = await httpClient.post(`${apiUrl}api/sheets/`, {
+    let response = await httpClient.post(`${apiUrl}api/sheets/create`, {
         name: name,
         user: null,
     })
@@ -90,10 +94,17 @@ const save = async (name, body) => {
     return response.data
 }
 
+const getSpreadSheet = async (name) => {
+    let response = await httpClient.get(`${apiUrl}api/sheets/${name}`)
+    return response.data
+}
+
 const deleteSpreadsheet = async (name) => {
     let response = await httpClient.delete(`${apiUrl}api/sheets/${name}`)
     return response.data
 }
+
+
 const register = async (email, username, password, reppassword) => {
 
     let response = await httpClient.post(`${apiUrl}users/auth/register`, {
@@ -111,4 +122,18 @@ const register = async (email, username, password, reppassword) => {
     return response
 }
 
-export { register, login, logout, save, getToken, removeToken, getCurrentUser, getMySheets, addNewSheet, getSupportedTools, solve, deleteSpreadsheet }
+export {
+    register,
+    login,
+    logout,
+    save,
+    getToken,
+    removeToken,
+    getCurrentUser,
+    getMySheets,
+    addNewSheet,
+    getSupportedTools,
+    solve,
+    deleteSpreadsheet,
+    getSpreadSheet,
+}
