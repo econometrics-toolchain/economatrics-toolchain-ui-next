@@ -192,7 +192,7 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
                 supportedTools={supportedTools}
             />
             {
-                showOutput ? <Output data={outputs} /> : <></>
+                showOutput ? <Output data={outputs} grid={data}/> : <></>
             }
         </Paper>
     )

@@ -1,6 +1,7 @@
 import { CircularProgress } from '@material-ui/core'
 import React, { memo } from 'react'
-
+import dynamic from 'next/dynamic';
+const ApexChart = dynamic(() => import("./Chart"), { ssr: false });
 
 const OutputComponent = ({ output }) => {
     return (
@@ -12,10 +13,11 @@ const OutputComponent = ({ output }) => {
     )
 }
 
-function WrappedOutput({ data }) {
+function WrappedOutput({ data, grid }) {
     if (data.length > 0) {
         return (
             <div>
+                <ApexChart />
                 {data.map((instance) => (
                     <React.Fragment key={instance.tool_handle}>
                         <h1>{instance.tool_handle}</h1>
