@@ -25,9 +25,9 @@ export const ListTile = ({ pk, item, onChange, checked }) => {
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                         <Link href={`/sheets/${item.name}`}>
-                        <div className='list-lite-item name'>
-                            {truncate(item.name)}
-                        </div>
+                            <div className='list-lite-item name'>
+                                {truncate(item.name)}
+                            </div>
                         </Link>
                     </div>
                 </Grid>

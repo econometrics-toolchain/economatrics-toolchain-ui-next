@@ -2,8 +2,9 @@ import React, { useContext, useState } from 'react';
 import { useMediaQuery, Grid, Typography, TextField, Button, LinearProgress } from '@material-ui/core';
 import { WizardContext } from '../../context/WizardContext';
 import { useRouter } from 'next/router'
-import { addNewSheet } from '../../utils/services';
+import { addNewSheet, apiUrl } from '../../utils/services';
 import Image from 'next/image'
+import { trigger } from 'swr';
 
 export const NewSheetContent = () => {
     const matches = useMediaQuery('(max-width:600px)');
@@ -15,6 +16,8 @@ export const NewSheetContent = () => {
     const onClickCallback = () => router.push(`/sheets/${name}`);
 
     const handleSubmit = async (event) => {
+        const url = `${apiUrl}api/sheets/`;
+        trigger(url);
         setIsLoading(true)
         event.preventDefault();
         let res = await addNewSheet(name);
@@ -53,7 +56,7 @@ export const NewSheetContent = () => {
             {
                 matches ? null :
                     <Grid xs={6} item>
-                         <Image src="/assets/newSmall.png" alt="people" width="640" height="427"/>
+                        <Image src="/assets/newSmall.png" alt="people" width="640" height="427" />
                     </Grid>
             }
         </Grid>

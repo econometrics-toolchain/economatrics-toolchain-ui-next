@@ -1,6 +1,7 @@
 import { Container, makeStyles } from '@material-ui/core';
-import Sidebar from '../sidebar/SIdebar';
+import { memo } from 'react';
 import { Navigator } from '../other/Navigator';
+import { Sidebar } from '../sidebar/SIdebar';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const Layout = ({ children }) => {
+export const Layout = memo(function WrappedLayout({ children }) {
     const classes = useStyles();
 
     return (
@@ -38,4 +39,4 @@ export const Layout = ({ children }) => {
             </main>
         </div>
     );
-}
+})

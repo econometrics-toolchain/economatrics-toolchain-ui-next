@@ -1,10 +1,9 @@
 import { makeStyles } from "@material-ui/core";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Layout } from "../../components/members/layout";
 import { a11yProps, AntTablePanel, AntTabs } from '../../components/members/dashboard/AntTabs';
 import { MySheets } from '../../components/members/dashboard/MySpreadsheets';
 import Tab from '@material-ui/core/Tab';
-import { CachedSheetsProvider } from "../../context/CachedSheetsContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,9 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Dashboard() {
+function WrappedDashboard({ initialSheets }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,8 +32,8 @@ export function Dashboard() {
           <Tab label="My sheets" {...a11yProps(0)} />
           <Tab label="payments" {...a11yProps(2)} />
         </AntTabs>
-        <AntTablePanel value={value} index={0}>         
-            <MySheets />
+        <AntTablePanel value={value} index={0}>
+          <MySheets initialSheets={initialSheets} />
         </AntTablePanel>
         <AntTablePanel value={value} index={1}>
           {/* <Payments /> */}
@@ -41,3 +41,5 @@ export function Dashboard() {
       </div>
     </Layout>);
 }
+
+export const Dashboard = memo(WrappedDashboard);

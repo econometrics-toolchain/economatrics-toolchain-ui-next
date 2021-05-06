@@ -1,30 +1,27 @@
 import { CircularProgress } from '@material-ui/core'
+import React, { memo } from 'react'
 
 
 const OutputComponent = ({ output }) => {
     return (
         <>
-            {
-                Object.keys(output).map((name, val) => (
-                    <h3 key={name}>{name}: {output[name]} </h3>
-                ))
-            }
+            {Object.keys(output).map((name, val) => (
+                <h3 key={name}>{name}: {output[name]} </h3>
+            ))}
         </>
     )
 }
 
-export const Output = ({ data }) => {
+function WrappedOutput({ data }) {
     if (data.length > 0) {
         return (
             <div>
-                {
-                    data.map((instance) => (
-                        <>
-                            <h1 key={"tool" + instance.tool_handle}>{instance.tool_handle}</h1>
-                            <OutputComponent key={"output" + instance.tool_handle} output={instance.output_data} />
-                        </>
-                    ))
-                }
+                {data.map((instance) => (
+                    <React.Fragment key={instance.tool_handle}>
+                        <h1>{instance.tool_handle}</h1>
+                        <OutputComponent output={instance.output_data} />
+                    </React.Fragment>
+                ))}
             </div>
         )
     }
@@ -34,3 +31,4 @@ export const Output = ({ data }) => {
     )
 
 }
+export const Output = memo(WrappedOutput);

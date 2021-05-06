@@ -1,8 +1,9 @@
 import { Typography, Grid } from '@material-ui/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
+import React from 'react';
 
-export function Navigator() {
+export const Navigator = React.memo(function WrappedNavigator() {
     const location = useRouter()
     // const paths = location.pathname.split('/').filter(function (el) { return el.length !== 0 });
     const router = useRouter()
@@ -19,5 +20,5 @@ export function Navigator() {
             </Grid>
         </Grid>
     )
-}
+})
 

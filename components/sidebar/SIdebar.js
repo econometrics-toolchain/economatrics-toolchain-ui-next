@@ -37,12 +37,12 @@ export const SecondaryListItems = () => {
             </ListItem>
             {/* </Link> */}
             <Link className="default-link" href="/forum">
-            <ListItem button>
-                <ListItemIcon>
-                    <ForumRoundedIcon style={{ color: 'white' }} />
-                </ListItemIcon>
-                <ListItemText primary="Forum" />
-            </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <ForumRoundedIcon style={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Forum" />
+                </ListItem>
             </Link>
             {/* <Link className="default-link" to="/dashboard"> */}
             <ListItem button>
@@ -178,7 +178,7 @@ const SettingsMenu = ({ anchorEl, anchorElCallback }) => {
     )
 }
 
-export default function Sidebar() {
+export const Sidebar = React.memo(function WrappedSidebar() {
     const classes = useStyles();
     const [isOpen, setIsOpen] = useState(true);
     const handleDrawer = () => setIsOpen(!isOpen);
@@ -256,4 +256,4 @@ export default function Sidebar() {
             </Drawer>
         </>
     )
-}
+})

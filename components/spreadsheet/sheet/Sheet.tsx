@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react'
+import { memo, useContext, useState } from 'react'
 import { Output } from './Output';
 import ReactDataSheet from 'react-datasheet';
 import { addRows } from '../../../utils';
 import axios from 'axios';
 import { solve } from '../../../utils/services';
 
-import { Button, Chip, FormControl, IconButton, Input, InputLabel, MenuItem, Paper, Select } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { SupportedToolsContext } from '../../../context/ToolsContext';
 import { ControllsBar } from './ControllsBar';
+import { SelectSolution } from './SelectSolution';
 
 const useStyles = makeStyles((theme) => ({
     exampleWrapper: {
@@ -60,64 +60,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SelectSolution = ({ onChange, tools }) => {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [solutions,] = useContext(SupportedToolsContext);
 
-    const handleChange = (event) => {
-        onChange(event.target.value)
-    };
 
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: 48 * 4.5 + 8,
-                minWidth: 250,
-                maxWidth: 350,
-            },
-        },
-    };
-
-    function getStyles(name, personName, theme) {
-        return {
-            fontWeight:
-                personName.indexOf(name) === -1
-                    ? theme.typography.fontWeightRegular
-                    : theme.typography.fontWeightMedium,
-        };
-    }
-
-    return (
-        <FormControl className={classes.formControl}>
-            <InputLabel id="demo-multiple-chip-label">Select tools</InputLabel>
-            <Select
-                labelId="demo-multiple-chip-label"
-                id="demo-multiple-chip"
-                multiple
-                value={tools}
-                onChange={handleChange}
-                input={<Input id="select-multiple-chip" />}
-                renderValue={(selected) => (
-                    <div className={classes.chips}>
-                        {(selected as Array<any>).map((value) => (
-                            <Chip key={value} label={value} className={classes.chip} />
-                        ))}
-                    </div>
-                )}
-                MenuProps={MenuProps}
-            >
-                {solutions.map(({ name }) => (
-                    <MenuItem key={name} value={name} style={getStyles(name, tools, theme)}>
-                        {name}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
-    )
-}
-
-export const Sheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, onChange }) => {
+export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, supportedTools = [], onChange }) => {
     const classes = useStyles();
     const [showOutput, setShowOutput] = useState(outputs.length > 0 ? true : false)
 
@@ -215,10 +160,9 @@ export const Sheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, onChange 
         onDeleteSpreadsheet(pk)
     }
 
-    
-
     const onContextMenu = (e, cell, i, j) =>
         cell.readOnly ? e.preventDefault() : null;
+
 
     return (
         <Paper key={pk} className={classes.paperView}>
@@ -227,26 +171,31 @@ export const Sheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, onChange 
                 onClear={handleClear}
                 onDelete={handleOnDelete}
                 onRun={handleOnRun}
-                onUndo={()=>{}}
-                onRedo={()=>{}}
+                onUndo={() => { }}
+                onRedo={() => { }}
             />
 
             <div style={{ width: '100%' }}>
                 <ReactDataSheet
                     className={'spreadsheet'}
                     data={data}
-                    valueRenderer={cell => cell.value}
+                    valueRenderer={(cell: any) => cell.value}
                     onContextMenu={onContextMenu}
                     onCellsChanged={(changes, additions) =>
                         cellChangedCommand(changes, additions)
-                    }
-                />
+                    } />
             </div>
 
-            <SelectSolution onChange={tools => handleSelectedToolChange(tools)} tools={tools} />
+            <SelectSolution
+                onChange={handleSelectedToolChange}
+                tools={tools}
+                supportedTools={supportedTools}
+            />
             {
                 showOutput ? <Output data={outputs} /> : <></>
             }
         </Paper>
     )
 }
+
+export const Sheet = memo(WrappedSheet);
