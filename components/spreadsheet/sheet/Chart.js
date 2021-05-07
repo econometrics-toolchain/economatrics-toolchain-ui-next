@@ -9,9 +9,9 @@ export default class ApexChart extends React.Component {
         this.state = {
 
             series: [{
-                name: "Desktops",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-            }],
+                data: props.data
+            },
+            ],
             options: {
                 colors: ['#ef5350'],
                 chart: {
@@ -25,11 +25,7 @@ export default class ApexChart extends React.Component {
                     enabled: false
                 },
                 stroke: {
-                    curve: 'straight'
-                },
-                title: {
-                    text: 'Product Trends by Month',
-                    align: 'left'
+                    curve: 'smooth'
                 },
                 grid: {
                     row: {
@@ -37,8 +33,12 @@ export default class ApexChart extends React.Component {
                         opacity: 0.5
                     },
                 },
-                xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return value;
+                        }
+                    },
                 }
             },
 

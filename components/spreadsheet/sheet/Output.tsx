@@ -6,9 +6,13 @@ const ApexChart = dynamic(() => import("./Chart"), { ssr: false });
 const OutputComponent = ({ output }) => {
     return (
         <>
-            {Object.keys(output).map((name, val) => (
-                <h3 key={name}>{name}: {output[name]} </h3>
-            ))}
+            {Object.keys(output).map((name, val) => {
+                if (name === 'graph') {
+                    return <ApexChart data={output['graph']} />
+                }
+                return <h3 key={name}>{name}: {output[name]} </h3>
+            }
+            )}
         </>
     )
 }
@@ -17,7 +21,6 @@ function WrappedOutput({ data, grid }) {
     if (data.length > 0) {
         return (
             <div>
-                <ApexChart />
                 {data.map((instance) => (
                     <React.Fragment key={instance.tool_handle}>
                         <h1>{instance.tool_handle}</h1>

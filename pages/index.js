@@ -23,7 +23,7 @@ Home.getInitialProps = async ({ req }) => {
     const data = await response.json();
     return { sheetsFromServer: data }
   } else {
-    return { sheetsFromServer: [] }
+    return { sheetsFromServer: null }
   }
 
 
