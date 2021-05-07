@@ -11,7 +11,7 @@ export default class ApexChart extends React.Component {
             series:props.data,
             options: {
                 markers: {
-                    size: [3, 7],
+                    size: [7, 3],
                     
                 },
                 colors: ['#ef5350'],
@@ -27,7 +27,7 @@ export default class ApexChart extends React.Component {
                 },
                 stroke: {
                     curve: 'straight',
-                    width: [5,0]
+                    width: [0,5]
                 },
                 grid: {
                     row: {
