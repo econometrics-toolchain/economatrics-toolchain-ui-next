@@ -25,7 +25,7 @@ export default class ApexChart extends React.Component {
                     enabled: false
                 },
                 stroke: {
-                    curve: 'smooth'
+                    curve: 'straight'
                 },
                 grid: {
                     row: {

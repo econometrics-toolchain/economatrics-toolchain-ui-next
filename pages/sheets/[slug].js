@@ -90,7 +90,7 @@ export async function getServerSideProps({ req, params }) {
     const data = await responseData.json();
     const supportedTools = await responseSupportedTools.json();
 
-    if (!data) {
+    if (!data || !authToken) {
         return {
             redirect: {
                 destination: '/',
