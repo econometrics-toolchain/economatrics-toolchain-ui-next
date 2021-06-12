@@ -1,8 +1,11 @@
 import { Container, makeStyles } from '@material-ui/core';
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { Navigator } from '../other/Navigator';
-import { Sidebar } from '../sidebar/Sidebar';
-
+import { Sidebar } from './Sidebar';
+import { Topbar } from '../landing/Topbar';
+import { Login } from '../wizard/Login';
+import { Register } from '../wizard/Register';
+import { WizardContext } from '../../context/WizardContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,20 +21,38 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     routes: {
-        paddingTop: theme.spacing(4),
+        paddingTop: theme.spacing(6),
         width: '100%',
     }
 }));
 
 export const Layout = memo(function WrappedLayout({ children }) {
     const classes = useStyles();
+    const [, setWizard] = useContext(WizardContext);
+
+
+    const handleLogin = () => {
+        setWizard({
+            open: true,
+            content: <Login />,
+            fullScreen: true,
+        })
+    }
+    const handleRegister = () => {
+        setWizard({
+            open: true,
+            content: <Register />,
+            fullScreen: true,
+
+        })
+    }
 
     return (
         <div className={classes.root}>
             <Sidebar />
+            <Topbar loginCallback={handleLogin} regCallback={handleRegister} logo='FORUM' searchBar={true}></Topbar>
             <main className={classes.content}>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Navigator />
                     <div className={classes.routes}>
                         {children}
                     </div>

@@ -19,5 +19,3 @@ export const useAuth = () => {
         isAuthenticated,
     }
 }
-
-

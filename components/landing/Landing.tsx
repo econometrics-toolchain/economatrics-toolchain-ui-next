@@ -28,7 +28,7 @@ export const Landing = () => {
     }
     return (
         <>
-            <Topbar loginCallback={handleLogin} regCallback={handleRegister}><></></Topbar>
+            <Topbar loginCallback={handleLogin} regCallback={handleRegister} logo=''><></></Topbar>
             <Hero loginCallback={handleLogin} />
             <LandingContent regCallback={handleRegister} />
         </>

@@ -44,6 +44,11 @@ const AuthProvider = (props) => {
     }, [])
 
     const login = async (email, password) => {
+        setState({
+            status: 'pending',
+            error: null,
+            user: null,
+        })
         await auth.login(email, password);
         const [user, error, status] = await bootstrap();
         setState({

@@ -13,16 +13,15 @@ import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
 import { useAuth } from '../../hooks/useAuth';
 import { WizardContext } from '../../context/WizardContext';
 import Link from 'next/link';
+import { NewSheetContent } from '../wizard/NewSheet';
 
 export const mainListItems = (
-    // <Link className="default-link" to="/dashboard">
     <ListItem button>
         <ListItemIcon>
             <DashboardIcon style={{ color: 'white' }} />
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
     </ListItem>
-    // </Link>
 );
 
 export const SecondaryListItems = () => {
@@ -184,13 +183,12 @@ export const Sidebar = React.memo(function WrappedSidebar() {
     const handleDrawer = () => setIsOpen(!isOpen);
     const [, setWizard] = useContext(WizardContext);
     const [anchorEl, setAnchorEl] = useState(null);
-    // const [, , , setNeedResetSignal] = useContext(CachedSheetsContext); // Proxy
 
 
     const handleNewSheet = () => {
         setWizard({
             open: true,
-            content: <NewSheetContent updateSheetListSignal={() => { }} />,
+            content: <NewSheetContent />,
             fullScreen: true,
         })
     }

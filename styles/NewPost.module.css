@@ -1,0 +1,21 @@
+.title {
+    width: 100%;
+   
+}
+.body{
+    width: 100%;
+    resize: vertical;
+    border-radius: 10px;
+    min-height: 200px;
+    margin: 20px 0 10px 0;
+}
+.body:focus-visible{
+    outline-color: #452ca0;
+}
+.container{
+    display: flex;
+    width: 100%;
+}
+.info{
+    width: 30vw;
+}

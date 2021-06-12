@@ -1,4 +1,4 @@
-import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import { Button, CircularProgress, FormControl, IconButton, Input, InputAdornment, InputLabel, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { useContext, useState } from 'react';
 import clsx from 'clsx';
@@ -22,6 +22,17 @@ const useStyles = makeStyles((theme) => ({
     },
     textField: {
         // width: '20ch',
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    wrapper: {
+        position: 'relative',
+        width: '100%',
     },
 }));
 
@@ -62,7 +73,7 @@ export const Login = () => {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth();
+    const { isPending, login } = useAuth();
     const [, setWizard] = useContext(WizardContext) as Array<any>;
 
     const handleSubmit = async (event) => {
@@ -84,7 +95,13 @@ export const Login = () => {
                 <Typography component='p' variant='caption'>
                     We don't have password recovery function :(
                 </Typography>
-                <Button type='submit' variant='contained' color='primary'>Login</Button>
+                <div className={classes.wrapper}>
+
+                    <Button type='submit' variant='contained' color='primary' style={{width:'100%'}} disabled={isPending}>
+                        Login
+                    </Button>
+                    {isPending && <CircularProgress color='secondary' size={24} className={classes.buttonProgress} />}
+                </div>
             </form>
         </Paper>
     )

@@ -2,9 +2,7 @@ import { memo, useContext, useState } from 'react'
 import { Output } from './Output';
 import ReactDataSheet from 'react-datasheet';
 import { addRows } from '../../../utils';
-import axios from 'axios';
-import { solve } from '../../../utils/services';
-
+import { useSheetControls } from '../../../hooks/useSheetControls';
 import { Paper } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { ControllsBar } from './ControllsBar';
@@ -65,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
 export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, supportedTools = [], onChange }) => {
     const classes = useStyles();
     const [showOutput, setShowOutput] = useState(outputs.length > 0 ? true : false)
-
+    const [handleAddRow, handleOnRun, handleOnDelete, handleOnTools, handleClear]
+        = useSheetControls(onChange, data, tools, outputs, pk, supportedTools)
 
     const cellChangedCommand = (changes, additions) => {
         let grid = [...data];
@@ -84,80 +83,6 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
             });
         }
         onChange(grid, tools, outputs, pk)
-
-    }
-
-    const handleClear = () => {
-        onChange([[
-            { readOnly: true, value: '' },
-            { value: 'A', readOnly: true },
-            { value: 'B', readOnly: true },
-            { value: 'C', readOnly: true },
-            { value: 'D', readOnly: true },
-            { value: 'E', readOnly: true },
-            { value: 'F', readOnly: true },
-            { value: 'G', readOnly: true },
-            { value: 'H', readOnly: true },
-            { value: 'I', readOnly: true },
-        ],
-        [
-            { readOnly: true, value: 1 },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-            { value: '' },
-        ],], [], [], pk)
-        setShowOutput(false)
-    }
-
-    const handleSelectedToolChange = (selectedTools) => {
-        let grid = [...data];
-        grid[0][1] = { value: 'y', readOnly: true }
-        grid[0][2] = { value: 'x', readOnly: true }
-
-        onChange(grid, selectedTools, outputs, pk)
-    }
-
-    const handleAddRow = () => {
-        const grid = addRows(data, 1)
-        onChange(grid, tools, outputs, pk)
-    }
-
-    const handleOnRun = () => {
-        setShowOutput(true)
-        let grid = [...data];
-        let payload = { X: [], Y: [] }
-        let requests = []
-        let output = []
-
-        data.slice(1, data.length).forEach((val) => {
-            if (val[1].value && val[2].value) {
-                payload.X.push(parseFloat(val[1].value))
-                payload.Y.push(parseFloat(val[2].value))
-            }
-        })
-
-        tools.forEach((tool) => {
-            requests.push(solve(tool, payload))
-            output.push({ tool_handle: tool })
-        })
-
-        axios.all(requests).then(axios.spread((...responses) => {
-            responses.forEach((resp, index) => {
-                output[index].output_data = resp
-            })
-            onChange(grid, tools, output, pk)
-        }))
-
-    }
-
-    const handleOnDelete = () => {
-        onDeleteSpreadsheet(pk)
     }
 
     const onContextMenu = (e, cell, i, j) =>
@@ -168,9 +93,13 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
         <Paper key={pk} className={classes.paperView}>
             <ControllsBar
                 onAdd={handleAddRow}
-                onClear={handleClear}
+                onClear={() => {
+                    handleClear()
+                    setShowOutput(false)
+                }}
                 onDelete={handleOnDelete}
-                onRun={handleOnRun}
+                onRun={() => { setShowOutput(true); handleOnRun() }}
+                onTools={handleOnTools}
                 onUndo={() => { }}
                 onRedo={() => { }}
             />
@@ -186,13 +115,8 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
                     } />
             </div>
 
-            <SelectSolution
-                onChange={handleSelectedToolChange}
-                tools={tools}
-                supportedTools={supportedTools}
-            />
             {
-                showOutput ? <Output data={outputs} grid={data}/> : <></>
+                showOutput ? <Output data={outputs} grid={data} /> : <></>
             }
         </Paper>
     )

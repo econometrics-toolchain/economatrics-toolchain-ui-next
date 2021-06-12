@@ -6,12 +6,17 @@ import { WizardContext } from '../../context/WizardContext';
 
 const useStyles = makeStyles((theme) => ({
     content: {
+        padding: '20px 10px',
+        position: 'relative',
+    },
+    fullWidthContent: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         padding: theme.spacing(10)
     },
     fullWidth: { width: '100vw' },
+    nonfullWidth: { width: '20vw' },
     closeBtn: {
         top: 0,
         left: 0,
@@ -34,7 +39,7 @@ export const Wizard = () => {
             onClose={(event) => setWizard({ open: false })}
             BackdropProps={{ invisible: true }}
         >
-            <div className={wizard.fullScreen ? classes.fullWidth : null}>
+            <div className={wizard.fullScreen ? classes.fullWidth : classes.nonfullWidth}>
                 {
                     wizard.fullScreen
                         ?
@@ -46,7 +51,7 @@ export const Wizard = () => {
                         :
                         null
                 }
-                <div className={classes.content}>
+                <div className={wizard.fullScreen ? classes.fullWidthContent : classes.content}>
                     {wizard.content}
                 </div>
             </div>
