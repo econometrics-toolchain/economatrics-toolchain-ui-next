@@ -64,7 +64,7 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
     const classes = useStyles();
     const [showOutput, setShowOutput] = useState(outputs.length > 0 ? true : false)
     const [handleAddRow, handleOnRun, handleOnDelete, handleOnTools, handleClear]
-        = useSheetControls(onChange, data, tools, outputs, pk, supportedTools)
+        = useSheetControls(onChange, data, tools, outputs, pk, supportedTools, onDeleteSpreadsheet)
 
     const cellChangedCommand = (changes, additions) => {
         let grid = [...data];
@@ -85,6 +85,14 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
         onChange(grid, tools, outputs, pk)
     }
 
+    const handleSelectedToolChange = (selectedTools) => {
+        let grid = [...data];
+        grid[0][1] = { value: 'y', readOnly: true }
+        grid[0][2] = { value: 'x', readOnly: true }
+
+        onChange(grid, selectedTools, outputs, pk)
+    }
+    
     const onContextMenu = (e, cell, i, j) =>
         cell.readOnly ? e.preventDefault() : null;
 
@@ -114,6 +122,11 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
                         cellChangedCommand(changes, additions)
                     } />
             </div>
+            <SelectSolution
+                onChange={handleSelectedToolChange}
+                tools={tools}
+                supportedTools={supportedTools}
+            />
 
             {
                 showOutput ? <Output data={outputs} grid={data} /> : <></>

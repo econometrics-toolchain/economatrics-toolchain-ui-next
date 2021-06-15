@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
-export const Builder = ({ supportedTools, grid, selectedTools, outputs, pk , onChange}) => {
+export const Builder = ({ onChange, tools, supportedTools }) => {
     const classes = useStyles();
     const [toolchain, setToolchain] = useState('')
 
-    const [tools, setTools] = useState(supportedTools);
+    const [toolsTO, setTools] = useState(supportedTools);
 
 
     const handleChange = (event) => {
@@ -26,7 +26,7 @@ export const Builder = ({ supportedTools, grid, selectedTools, outputs, pk , onC
     };
 
     const handleToolsChange = (index) => {
-        const tmp = [...tools];
+        const tmp = [...toolsTO];
         tmp[index].checked = !tmp[index].checked;
         setTools(tmp);
         onChange(grid, tmp, outputs, pk)
@@ -54,7 +54,7 @@ export const Builder = ({ supportedTools, grid, selectedTools, outputs, pk , onC
             <FormControl component="fieldset">
                 <FormLabel component="legend">Tools</FormLabel>
                 <FormGroup>
-                    {tools.map((tool, index) => (
+                    {toolsTO.map((tool, index) => (
                         <CheckboxTile checked={tool.checked} tool={tool} onChange={handleToolsChange} index={index} />
                     ))}
                 </FormGroup>

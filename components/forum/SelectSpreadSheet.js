@@ -1,4 +1,13 @@
-import { createStyles, Fab, Grid, IconButton, makeStyles, Modal, TextField, Typography } from "@material-ui/core";
+import { CircularProgress, ListItemIcon } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import { List } from "@material-ui/core";
+import { createStyles, Fab, Grid, IconButton, ListItem, makeStyles, Modal, TextField, Typography, ListItemText } from "@material-ui/core";
+import GridOnIcon from '@material-ui/icons/GridOn';
+import { useContext, useEffect, useState } from "react";
+import useSWR from "swr";
+import { WizardContext } from "../../context/WizardContext";
+import { apiUrl, fetcher, httpClient } from "../../utils/services";
+import { NewSheetContent } from '../../components/wizard/NewSheet';
 
 const useStyles = makeStyles((theme) =>
 
@@ -13,15 +22,43 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
-export const SelectSpreadsheet = () => {
+export const SelectSpreadsheet = ({ onChange }) => {
     const classes = useStyles();
+    const url = `${apiUrl}api/sheets/`;
+    const [sheets, setSheets] = useState([])
+    // const { data: sheets } = useSWR(url, fetcher, { initialData: [] });
+    const [, setWizard] = useContext(WizardContext);
+
+    useEffect(() => {
+        httpClient.get(url).then((res) => res.data).then(res => {
+            setSheets(res)
+        })
+    }, []);
+
+    const handleCreate = () => {
+        setWizard({
+            open: true,
+            content: <NewSheetContent />,
+            fullScreen: true,
+        })
+    }
 
     return (
         <div className={classes.paper}>
             <h2 id="simple-modal-title">Include spreadsheet</h2>
-            <p id="simple-modal-description">
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </p>
-        </div>
+            <List>
+
+                {sheets.map((sheet) => (
+                    <ListItem onClick={() => { onChange(sheet) }}
+                        button>
+                        <ListItemIcon>
+                            <GridOnIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={sheet.name} />
+                    </ListItem>
+                ))}
+            </List>
+            <Button onClick={handleCreate} variant="contained" color='secondary'>Create new</Button>
+        </div >
     );
 }

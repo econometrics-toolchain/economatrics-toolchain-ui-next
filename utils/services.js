@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 export const apiUrl = 'https://gretljestslaby.pythonanywhere.com/';
 const authKey = 'token';
-const httpClient = axios.create();
+export const httpClient = axios.create();
 
 httpClient.interceptors.request.use(async config => {
     const token = await getToken();

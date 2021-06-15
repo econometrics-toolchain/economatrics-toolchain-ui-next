@@ -6,7 +6,8 @@ import { EmptySheetSheet } from '../../components/spreadsheet/sheet/EmptySheet';
 import { Sheet } from '../../components/spreadsheet/sheet/Sheet';
 import { generateEmptySheetData } from '../../utils';
 import { save } from '../../utils/services';
-
+import html2canvas from 'html2canvas';
+import jsPDF from 'jsPDF';
 function WrappedHome({ data, supportedTools }) {
     const router = useRouter()
     const [sheets, setSheets] = useState(data.content);
@@ -33,40 +34,40 @@ function WrappedHome({ data, supportedTools }) {
 
 
     const handleExport = () => {
-        // const input = document.getElementById('main-view');
-        // html2canvas(input)
-        //     .then((canvas) => {
-        //         const imgData = canvas.toDataURL('image/png');
-        //         const pdf = new jsPDF();
-        //         pdf.addImage(imgData, 'JPEG', 0, 0);
-        //         pdf.save("export.pdf");
-        //     })
+        const input = document.getElementById('main-view');
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                pdf.addImage(imgData, 'JPEG', 0, 0);
+                pdf.save("export.pdf");
+            })
     }
-
-
     return <Layout>
         <FabMenu onAddSpreadSheet={handleAddSheet} onSave={handleOnSave} onExport={handleExport} />
-        {
-            sheets.length === 0 ?
-                <EmptySheetSheet onAddSpreadSheet={handleAddSheet} />
-                :
-                sheets.map((spreadsheet, index) => (
-                    <>
-                        <Sheet
-                            key={index}
-                            pk={index}
-                            data={spreadsheet.data}
-                            tools={spreadsheet.tools || []}
-                            supportedTools={supportedTools}
-                            outputs={spreadsheet.outputs}
-                            onDeleteSpreadsheet={handleDeleteSpreadsheet}
-                            onChange={handleOnChange}
-                        />
-                        <div style={{ height: '25px', width: '100%' }}></div>
-                    </>
-                )
-                )
-        }
+        <div id='main-view'>
+            {
+                sheets.length === 0 ?
+                    <EmptySheetSheet onAddSpreadSheet={handleAddSheet} />
+                    :
+                    sheets.map((spreadsheet, index) => (
+                        <>
+                            <Sheet
+                                key={index}
+                                pk={index}
+                                data={spreadsheet.data}
+                                tools={spreadsheet.tools || []}
+                                supportedTools={supportedTools}
+                                outputs={spreadsheet.outputs}
+                                onDeleteSpreadsheet={handleDeleteSpreadsheet}
+                                onChange={handleOnChange}
+                            />
+                            <div style={{ height: '25px', width: '100%' }}></div>
+                        </>
+                    )
+                    )
+            }
+        </div>
     </Layout>
 }
 

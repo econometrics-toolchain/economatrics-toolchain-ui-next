@@ -10,16 +10,19 @@ import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
 import { useAuth } from '../../hooks/useAuth';
 import { WizardContext } from '../../context/WizardContext';
 import Link from 'next/link';
-import { isClassExpression } from 'typescript';
 
 const PrimaryListItems = ({ classes }) => (
     <>
-        <ListItem button>
-            <ListItemText className={classes.item} primary="Home" />
-        </ListItem>
-        <ListItem button>
-            <ListItemText className={classes.item} primary="Questions" />
-        </ListItem>
+        <Link className="default-link" href="/forum">
+            <ListItem button>
+                <ListItemText className={classes.item} primary="Home" />
+            </ListItem>
+        </Link>
+        <Link className="default-link" href="/forum">
+            <ListItem button>
+                <ListItemText className={classes.item} primary="Questions" />
+            </ListItem>
+        </Link>
     </>
 );
 
@@ -44,7 +47,6 @@ const SecondaryListItems = ({ classes, isAuthenticated }) => {
                     </ListItem>
                 </>
             }
-
             <ListItem button>
                 <ListItemIcon>
                     <HelpOutlineRoundedIcon />
@@ -147,7 +149,7 @@ export const Sidebar = React.memo(function WrappedSidebar() {
                         <List>
                             <PrimaryListItems classes={classes} />
                             <CustomDivider classes={classes} />
-                            <SecondaryListItems classes={classes} isAuthenticated={isAuthenticated}/>
+                            <SecondaryListItems classes={classes} isAuthenticated={isAuthenticated} />
                         </List>
                     </div>
                     <div>

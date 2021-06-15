@@ -99,3 +99,7 @@ body {
 .container {
   padding: 0 15%;
 }
+.link-post:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}

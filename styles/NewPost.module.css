@@ -1,6 +1,8 @@
 .title {
     width: 100%;
-   
+}
+.title input{
+    font-size: 24px;
 }
 .body{
     width: 100%;
@@ -8,6 +10,7 @@
     border-radius: 10px;
     min-height: 200px;
     margin: 20px 0 10px 0;
+    font-size: 20px;
 }
 .body:focus-visible{
     outline-color: #452ca0;
@@ -18,4 +21,5 @@
 }
 .info{
     width: 30vw;
+    margin-left: 30px;
 }

@@ -4,10 +4,9 @@ import { useContext } from 'react';
 import { WizardContext } from '../context/WizardContext';
 import { addRows } from '../utils';
 import { solve } from '../utils/services';
-import {Builder} from '../components/wizard/Builder';
-export const useSheetControls = (onChange, data, tools, outputs, pk, supportedTools) => {
+import { Builder } from '../components/wizard/Builder';
+export const useSheetControls = (onChange, data, tools, outputs, pk, supportedTools, onDeleteSpreadsheet) => {
     const [, setWizard] = useContext(WizardContext);
-
 
     const handleSelectedToolChange = (selectedTools) => {
         let grid = [...data];
@@ -55,7 +54,9 @@ export const useSheetControls = (onChange, data, tools, outputs, pk, supportedTo
     const handleOnTools = () => {
         setWizard({
             open: true,
-            content: <Builder supportedTools={supportedTools} onChange={onChange} grid={data} selectedTools={tools} outputs={outputs} pk={pk}/>,
+            content: <Builder onChange={handleSelectedToolChange}
+                tools={tools}
+                supportedTools={supportedTools} />,
             fullScreen: false,
         })
 
