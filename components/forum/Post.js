@@ -11,7 +11,7 @@ export const Post = ({ post, index }) => {
             router.push(`/forum/posts/${post.pk}`)
         }}>
             <Grid alignItems='center' container style={{ marginTop: '10px' }}>
-                <Avatar style={{ marginRight: '15px' }} />
+                <Avatar src={`${post.author.avatar}`} style={{ marginRight: '15px' }} />
                 <div>
                     <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{post.author.first_name} {post.author.last_name}</div>
                     <div style={{ color: 'gray' }}>{post.author.bio} | since 2021</div>

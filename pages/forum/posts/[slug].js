@@ -123,7 +123,7 @@ export default function Post(post) {
                             <ThumbUpIcon />
                             <div style={{ fontSize: '13px' }}>126</div>
                         </div>
-                        <Avatar style={{ marginLeft: '10px' }} />
+                        <Avatar src={`${user[0]?.avatar}`} style={{ marginLeft: '20px' }} />
                         <div style={{ marginLeft: '10px' }}>
                             <div style={{ fontSize: '15px', fontWeight: 'bold' }}>{post.post.author.first_name} {post.post.author.last_name}</div>
                             <div style={{ color: 'gray' }}>{post.post.author.bio} | since 2021</div>
@@ -169,7 +169,7 @@ export default function Post(post) {
                         Comment
                     </Fab>
 
-                    <div style={{ fontWeight: 'bold', marginTop: '40px' }}>Answers</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '40px' }}>{comments.length} Answers</div>
 
                     {comments.map((comment) => (
                         <>
