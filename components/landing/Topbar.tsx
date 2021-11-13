@@ -2,6 +2,7 @@ import { Avatar, Button, Divider, Grid, IconButton, makeStyles, Typography } fro
 import clsx from 'clsx';
 import { useAuth } from "../../hooks/useAuth";
 import Link from 'next/link'
+import {useState, useEffect} from 'react'
 import CustomizedInputBase from '../forum/InputBar';
 import AddIcon from '@material-ui/icons/Add';
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,14 @@ const useStyles = makeStyles((theme) => ({
 export const Topbar = ({ loginCallback, regCallback, logo, searchBar = false, children }) => {
     const { state, isAuthenticated } = useAuth();
 
+    const [user, setUser] = useState(1);
+
+    useEffect(async () => {
+        const response = await fetch(`https://gretljestslaby.pythonanywhere.com/api/profiles/${state.user?.email}/`)
+        const data = await response.json();
+        setUser(data);
+    }, [])
+
 
     const classes = useStyles();
     return (
@@ -54,7 +63,7 @@ export const Topbar = ({ loginCallback, regCallback, logo, searchBar = false, ch
             {
                 isAuthenticated ?
                     <Grid direction="row" justify="flex-end" alignItems="center" className={clsx(classes.btns, classes.container)} container >
-                        <Avatar style={{ marginRight: '15px' }} />
+                        <Avatar src = {`${user[0]?.avatar}`}  style={{ marginRight: '15px' }} />
                         <p>{state.user.username}</p>
                         <div style={{
                             width: '1px',

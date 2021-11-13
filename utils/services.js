@@ -44,6 +44,20 @@ const login = async (email, password) => {
     return response;
 }
 
+const changePassword = async (password, passwordconf) => {
+
+    let response = await httpClient.post(`${apiUrl}users/auth/password/change/`, {
+        
+        
+        new_password1: password,
+        new_password2: passwordconf,
+    
+    });
+
+    return response;
+
+}
+
 
 const getCurrentUser = async () => {
     let response = await httpClient.get(`${apiUrl}users/auth/user/`)
@@ -124,6 +138,7 @@ const register = async (email, username, password, reppassword) => {
 
 export {
     register,
+    changePassword,
     login,
     logout,
     save,

@@ -5,6 +5,7 @@ import { WizardContext } from '../context/WizardContext';
 import { addRows } from '../utils';
 import { solve } from '../utils/services';
 import { Builder } from '../components/wizard/Builder';
+import { CallToAction, PaymentTwoTone } from '@material-ui/icons';
 export const useSheetControls = (onChange, data, tools, outputs, pk, supportedTools, onDeleteSpreadsheet) => {
     const [, setWizard] = useContext(WizardContext);
 
@@ -27,13 +28,67 @@ export const useSheetControls = (onChange, data, tools, outputs, pk, supportedTo
         let requests = []
         let output = []
 
-        data.slice(1, data.length).forEach((val) => {
-            if (val[1].value && val[2].value) {
-                payload.X.push(parseFloat(val[1].value))
-                payload.Y.push(parseFloat(val[2].value))
-            }
-        })
+        const arrayColumn = (arr, n) => arr.map(x => parseFloat(x[n].value));
+        let Y = arrayColumn(data, 1)
+        Y.shift()
+        payload.Y = (Y.filter(n => n))
+        
+        for (let j = 2; j< data[1].length ; j++){
+            if (data[1][j].value) {
+                let X = arrayColumn(data,j)
+                X.shift()
+                payload.X.push(X.filter(n => n))
+        }
+    }
 
+
+
+
+
+
+        // for (let j = 1; j <= 10; j++) {
+        //     console.log(data[j][1].value)
+        //     payload.Y.push(parseFloat(data[j][1].value))
+
+
+        //     if (data[1][j-1].value) {
+
+
+        //         payload.X.push(data.slice(1, data.length).map(function (val, i) {
+
+
+        //             if (val[j].value) {
+
+        //                 return parseFloat(val[j].value)
+
+        //             }
+        //             else return null
+        //         }))
+
+        //     }
+        // }
+
+        // console.log(temparr)
+        //     for(let j=1; j< 10; j++){
+        //       data.slice(1, data.length).forEach((val,i) => {
+
+
+        //         // console.log(data[i+1][j])
+
+        //         // console.log(val)
+        //         if (val[1].value && val[2].value && val[3].value) {
+        //             temparr.push(parseFloat(val[1].value))
+        //             // console.log(val[i].value)
+        //             // temparr.push((val[3].value))
+        //             // payload.X.push([parseFloat([5,4,3,2,1]) ,parseFloat([val[1].value])])
+        //             payload.Y.push(parseFloat(val[2].value))
+        //         }
+        //     })
+        // }
+        // payload.X.push(temparr)
+        // payload.Y.push(temparr[temparr.length-1])
+        // payload.X.push([temparr])
+    
         tools.forEach((tool) => {
             requests.push(solve(tool, payload))
             output.push({ tool_handle: tool })

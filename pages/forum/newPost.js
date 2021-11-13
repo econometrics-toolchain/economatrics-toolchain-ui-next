@@ -56,13 +56,14 @@ export default function NewPost() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
         if (title !== '' && body !== '') {
             httpClient.post('https://gretljestslaby.pythonanywhere.com/api/posts/', {
                 content: body,
                 image: null,
                 liked: []
             }).then(resp => {
-                router.push(`/forum/posts/${resp.data.pk}`)
+                 router.push(`/forum/posts/${resp.data.pk}`)
             })
         }
     }
@@ -77,6 +78,7 @@ export default function NewPost() {
 
     const handleSheetChange = (sheet) => {
         setSelectedSheet(sheet)
+       
         handleOpen()
     }
 

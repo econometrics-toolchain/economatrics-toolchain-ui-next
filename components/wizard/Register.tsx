@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1, 0, 2, 0),
     },
     withoutLabel: {
-        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
     },
     textField: {
         // width: '20ch',
@@ -37,7 +37,7 @@ const PasswordInput = ({ value, onInput, name }) => {
     }
     const classes = useStyles();
     return (
-        <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
+        <FormControl className={clsx(classes.withoutLabel, classes.textField)}>
             <InputLabel htmlFor="standard-adornment-password">{name}</InputLabel>
             <Input
                 value={value}

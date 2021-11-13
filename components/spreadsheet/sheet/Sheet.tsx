@@ -65,17 +65,26 @@ export const WrappedSheet = ({ pk, data, tools, outputs, onDeleteSpreadsheet, su
     const [showOutput, setShowOutput] = useState(outputs.length > 0 ? true : false)
     const [handleAddRow, handleOnRun, handleOnDelete, handleOnTools, handleClear]
         = useSheetControls(onChange, data, tools, outputs, pk, supportedTools, onDeleteSpreadsheet)
+    
+    const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
     const cellChangedCommand = (changes, additions) => {
         let grid = [...data];
 
         changes.forEach(({ cell, row, col, value }) => {
-            grid[row][col] = { ...grid[row][col], value };
+
+            if(value.match(/^[0-9.,]*$/) && countOccurrences([...value], '.') <= 1){
+                value = value.replace(',', '.')
+                grid[row][col] = { ...grid[row][col], value: value };
+            }
         });
         if (additions) {
             additions.forEach(({ row, col, value }) => {
                 try {
+                    if(value.match(/^[0-9.,]*$/) && countOccurrences([...value], '.') <= 1){
+                        value = value.replace(',', '.')
                     grid[row][col] = { ...grid[row][col], value };
+                    }
                 } catch {
                     grid = addRows(grid, 1)
                     grid[row][col] = { ...grid[row][col], value };

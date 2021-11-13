@@ -13,6 +13,7 @@ import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
 import { useAuth } from '../../hooks/useAuth';
 import { WizardContext } from '../../context/WizardContext';
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import { NewSheetContent } from '../wizard/NewSheet';
 
 export const mainListItems = (
@@ -154,10 +155,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SettingsMenu = ({ anchorEl, anchorElCallback }) => {
+    const router = useRouter()
     const { logout } = useAuth();
 
     const handleClose = () => {
-        anchorElCallback(null);
+        
+        router.push('/forum/myProfile')
     };
     const handleLogout = async () => {
         await logout();
@@ -171,6 +174,7 @@ const SettingsMenu = ({ anchorEl, anchorElCallback }) => {
             onClose={handleClose}
         >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
+           
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
